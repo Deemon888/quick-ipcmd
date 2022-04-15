@@ -82,7 +82,7 @@ elif [[ "$cmdtype" == "listips" ]]; then
         sudo nmap -sL $ipr
 elif [[ "$cmdtype" == "link" ]]; then
         sleep 1
-        /home/deemon/git.hub.scripts/zphisher/zphisher.sh
+        ~/zphisher/zphisher.sh
 elif [[ "$cmdtype" == "Sakupen" ]]; then
         sleep 1
         clear;figlet "SaKuPeN"
